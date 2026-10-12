@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Mazha is turning 10! Join us for an indoor skydiving birthday at iFLY Chicago-Rosemont on Tuesday, November 3, 2026.">
+<meta property="og:title" content="Mazha Turns 10 – You're invited!">
+<meta property="og:description" content="Indoor skydiving birthday at iFLY Chicago-Rosemont · Tuesday, Nov 3, 2026">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mazhaturns10.com/">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🪂</text></svg>">
+<style>body{margin:0}[hidden]{display:none!important}img{max-width:100%}</style>
+<title>Mazha Turns 10</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=DM+Sans:opsz,wght@9..40,400;9..40,600;9..40,700&family=Space+Mono:wght@400;700&display=swap">
+<style>
+/* Layout: sky hero with a wind-tunnel "10" floating on rising air, then a boarding pass, a pre-flight checklist and RSVP. One deliberate light "sky" world, colors set explicitly. */
+:root {
+  --sky: #cfeafb;
+  --sky-deep: #8fcdf2;
+  --ink: #10233f;
+  --muted: #3f5878;
+  --suit: #ff6a2b;
+  --sun: #ffd23f;
+  --paper: #fffdf7;
+  --line: #b9d7ea;
+  --display: "Dela Gothic One", "Arial Black", Impact, sans-serif;
+  --body: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "Space Mono", ui-monospace, Menlo, Consolas, monospace;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--sky);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 1rem;
+  line-height: 1.55;
+}
+.wrap { max-width: 920px; margin: 0 auto; padding-inline: 20px; padding-block: 0 64px; }
+
+/* ---------- hero ---------- */
+.hero {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 24px;
+  align-items: center;
+  padding-block: 48px 32px;
+}
+.eyebrow {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 12px;
+}
+h1 {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(2.3rem, 7vw, 4.4rem);
+  line-height: 1.02;
+  margin: 0 0 16px;
+  text-wrap: balance;
+}
+h1 .name { color: var(--suit); }
+.lede { font-size: 1.15rem; max-width: 32ch; margin: 0 0 24px; color: var(--muted); }
+.lede strong { color: var(--ink); }
+.cta-row { display: flex; flex-wrap: wrap; gap: 12px; }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  font: 700 0.95rem/1 var(--body);
+  padding: 14px 20px;
+  border-radius: 999px;
+  border: 2px solid var(--ink);
+  background: var(--ink);
+  color: var(--paper);
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.btn:hover { transform: translateY(-2px); box-shadow: 0 4px 0 var(--ink); }
+.btn.alt { background: transparent; color: var(--ink); }
+.btn:focus-visible { outline: 3px solid var(--suit); outline-offset: 3px; }
+
+/* the wind tunnel */
+.tunnel {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  max-width: 100%;
+  width: 100%;
+  border-radius: 999px 999px 28px 28px;
+  background:
+    radial-gradient(120% 60% at 50% 100%, var(--sky-deep), transparent 70%),
+    linear-gradient(180deg, var(--paper), var(--sky));
+  border: 3px solid var(--ink);
+  overflow: hidden;
+  box-shadow: 8px 8px 0 var(--ink);
+}
+.streak {
+  position: absolute;
+  bottom: -30%;
+  width: 3px;
+  height: 28%;
+  border-radius: 3px;
+  background: linear-gradient(180deg, transparent, var(--sky-deep));
+  animation: rise 1.6s linear infinite;
+}
+@keyframes rise { to { transform: translateY(-460%); } }
+.ten {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-family: var(--display);
+  font-size: clamp(6rem, 20vw, 10rem);
+  color: var(--suit);
+  -webkit-text-stroke: 3px var(--ink);
+  text-shadow: 6px 6px 0 var(--ink);
+  animation: hover 2.4s ease-in-out infinite;
+}
+@keyframes hover {
+  0%, 100% { transform: translateY(4%) rotate(-4deg); }
+  50% { transform: translateY(-6%) rotate(3deg); }
+}
+.net {
+  position: absolute; left: 0; right: 0; bottom: 0; height: 14%;
+  background:
+    repeating-linear-gradient(90deg, var(--ink) 0 2px, transparent 2px 14px),
+    repeating-linear-gradient(0deg, var(--ink) 0 2px, transparent 2px 14px);
+  opacity: .22;
+}
+.tunnel-label {
+  position: absolute; left: 50%; bottom: 16%; transform: translateX(-50%);
+  font-family: var(--mono); font-size: 0.7rem; letter-spacing: .12em;
+  background: var(--sun); color: var(--ink);
+  border: 2px solid var(--ink);
+  padding: 4px 10px; border-radius: 999px; white-space: nowrap;
+}
+
+/* ---------- boarding pass ---------- */
+.section-title {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(1.4rem, 3.6vw, 2rem);
+  margin: 0 0 16px;
+  text-wrap: balance;
+}
+.pass {
+  display: grid;
+  grid-template-columns: 1fr 230px;
+  background: var(--paper);
+  border: 3px solid var(--ink);
+  border-radius: 22px;
+  box-shadow: 8px 8px 0 var(--ink);
+  margin-block: 24px 48px;
+  overflow: hidden;
+}
+.pass-main { padding: 24px 28px; min-width: 0; }
+.pass-head {
+  display: flex; justify-content: space-between; align-items: center; gap: 12px;
+  flex-wrap: wrap;
+  padding-bottom: 16px; margin-bottom: 20px;
+  border-bottom: 2px dashed var(--line);
+}
+.pass-head .brand { font-family: var(--display); font-size: 1.15rem; }
+.pass-head .flight { font-family: var(--mono); font-weight: 700; font-size: .85rem; background: var(--ink); color: var(--paper); padding: 4px 10px; border-radius: 6px; }
+.fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 24px; }
+.field { min-width: 0; }
+.field.wide { grid-column: 1 / -1; }
+.label {
+  font-family: var(--mono); font-size: .7rem; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--muted); margin: 0 0 2px;
+}
+.value { font-weight: 700; font-size: 1.15rem; margin: 0; overflow-wrap: anywhere; }
+.value small { display: block; font-weight: 400; font-size: .95rem; color: var(--muted); }
+.value a { color: var(--ink); text-decoration-color: var(--suit); text-decoration-thickness: 2px; text-underline-offset: 3px; }
+.stub {
+  position: relative;
+  border-left: 3px dashed var(--ink);
+  background: var(--sun);
+  padding: 24px 20px;
+  display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 6px;
+  text-align: center;
+}
+.stub::before, .stub::after {
+  content: ""; position: absolute; left: -15px; width: 26px; height: 26px; border-radius: 50%;
+  background: var(--sky); border: 3px solid var(--ink);
+}
+.stub::before { top: -15px; }
+.stub::after { bottom: -15px; }
+.count { font-family: var(--display); font-size: 3.6rem; line-height: 1; font-variant-numeric: tabular-nums; }
+.count-label { font-family: var(--mono); font-size: .75rem; letter-spacing: .12em; text-transform: uppercase; }
+.barcode {
+  margin-top: 10px; width: 150px; max-width: 100%; height: 38px;
+  background: repeating-linear-gradient(90deg, var(--ink) 0 2px, transparent 2px 4px, var(--ink) 4px 7px, transparent 7px 9px, var(--ink) 9px 10px, transparent 10px 13px);
+}
+
+/* ---------- checklist ---------- */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: start; }
+.checklist { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+.checklist li {
+  display: grid; grid-template-columns: 30px 1fr; gap: 12px; align-items: start;
+  background: var(--paper); border: 2px solid var(--ink); border-radius: 14px; padding: 12px 14px;
+}
+.tick {
+  width: 26px; height: 26px; border-radius: 7px; border: 2px solid var(--ink); background: var(--sun);
+  display: grid; place-items: center; font-weight: 700; font-size: .9rem; margin-top: 1px;
+}
+.checklist b { display: block; }
+.checklist span.note { color: var(--muted); font-size: .95rem; }
+
+/* ---------- RSVP ---------- */
+.rsvp {
+  background: var(--ink); color: var(--paper);
+  border-radius: 22px; padding: 26px 26px 28px;
+  box-shadow: 8px 8px 0 var(--suit);
+}
+.rsvp .section-title { color: var(--sun); }
+.rsvp p { margin: 0 0 14px; }
+.rsvp .by { font-family: var(--mono); font-size: .85rem; letter-spacing: .08em; text-transform: uppercase; color: var(--sun); }
+.contact {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+  background: rgba(255,253,247,.08); border: 2px solid rgba(255,253,247,.35);
+  border-radius: 14px; padding: 12px 14px; margin-bottom: 10px;
+}
+.contact .who { font-size: .9rem; opacity: .85; }
+.contact .num { font-family: var(--mono); font-weight: 700; font-size: 1.1rem; user-select: all; overflow-wrap: anywhere; }
+.copy {
+  font: 700 .85rem/1 var(--body); padding: 10px 14px; border-radius: 999px;
+  border: 2px solid var(--sun); background: var(--sun); color: var(--ink); cursor: pointer;
+}
+.copy:focus-visible { outline: 3px solid var(--paper); outline-offset: 2px; }
+.rsvp .small { font-size: .9rem; opacity: .85; margin: 12px 0 0; }
+
+/* placeholders the host still needs to fill in */
+.ph { color: var(--muted); font-style: italic; font-weight: 600; }
+
+footer { margin-top: 48px; text-align: center; font-family: var(--mono); font-size: .8rem; color: var(--muted); letter-spacing: .06em; }
+
+@media (max-width: 720px) {
+  .hero { grid-template-columns: 1fr; padding-block: 28px 8px; }
+  .tunnel { max-width: 260px; justify-self: center; order: -1; }
+  .pass { grid-template-columns: 1fr; }
+  .stub { border-left: 0; border-top: 3px dashed var(--ink); flex-direction: row; flex-wrap: wrap; gap: 4px 14px; }
+  .stub::before, .stub::after { left: auto; top: -15px; bottom: auto; }
+  .stub::before { left: -15px; }
+  .stub::after { right: -15px; }
+  .barcode { display: none; }
+  .two-col { grid-template-columns: 1fr; }
+  .fields { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .streak, .ten { animation: none; }
+  .streak { display: none; }
+}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <div>
+      <p class="eyebrow">You're invited · Flight B-DAY 10</p>
+      <h1><span class="name" data-f="name">Mazha</span> is turning 10 and taking to the sky</h1>
+      <p class="lede">Come fly with us at <strong>iFLY Chicago-Rosemont</strong> for an indoor skydiving birthday. No plane, no parachute, just wind.</p>
+      <div class="cta-row">
+        <a class="btn" href="#rsvp">RSVP</a>
+        <a class="btn alt" id="cal" href="#" target="_blank" rel="noopener">Add to Google Calendar</a>
+      </div>
+    </div>
+    <div class="tunnel" aria-hidden="true">
+      <div id="streaks"></div>
+      <div class="net"></div>
+      <div class="ten">10</div>
+      <div class="tunnel-label">WIND ON</div>
+    </div>
+  </header>
+
+  <section aria-labelledby="pass-title">
+    <h2 class="section-title" id="pass-title">Your boarding pass</h2>
+    <div class="pass">
+      <div class="pass-main">
+        <div class="pass-head">
+          <span class="brand">Birthday Air</span>
+          <span class="flight">FLIGHT 10</span>
+        </div>
+        <div class="fields">
+          <div class="field">
+            <p class="label">Birthday flyer</p>
+            <p class="value" data-f="name">Mazha</p>
+          </div>
+          <div class="field">
+            <p class="label">Date</p>
+            <p class="value">Tuesday, Nov 3<small>2026</small></p>
+          </div>
+          <div class="field">
+            <p class="label">Boarding</p>
+            <p class="value"><span data-f="time">[Start time]</span><small>Please arrive on time for check-in and flight training</small></p>
+          </div>
+          <div class="field">
+            <p class="label">Wheels down</p>
+            <p class="value" data-f="endTime">[End time]</p>
+          </div>
+          <div class="field wide">
+            <p class="label">Gate</p>
+            <p class="value">iFLY Chicago-Rosemont
+              <small><a id="map" href="https://www.google.com/maps/search/?api=1&query=iFLY+Indoor+Skydiving+5520+Park+Place+Rosemont+IL+60018" target="_blank" rel="noopener">5520 Park Place, Rosemont, IL 60018</a> · near O'Hare</small>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="stub">
+        <span class="count" id="count">–</span>
+        <span class="count-label" id="count-label">days to takeoff</span>
+        <div class="barcode" aria-hidden="true"></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="two-col">
+    <section aria-labelledby="check-title">
+      <h2 class="section-title" id="check-title">Pre-flight checklist</h2>
+      <ul class="checklist">
+        <li><span class="tick" aria-hidden="true">✓</span><div><b>Comfy clothes and sneakers</b><span class="note">Flight suits and helmets are handed out on site.</span></div></li>
+        <li><span class="tick" aria-hidden="true">✓</span><div><b>Hair tied back, jewelry off</b><span class="note">Long hair and loose items don't mix with tunnel wind.</span></div></li>
+        <li><span class="tick" aria-hidden="true">✓</span><div><b>A parent signs the waiver</b><span class="note">Every flyer under 18 needs one. We'll send you the link after you RSVP.</span></div></li>
+        <li><span class="tick" aria-hidden="true">✓</span><div><b>Bring a camera</b><span class="note">Grown-ups can watch the whole flight from outside the tunnel.</span></div></li>
+      </ul>
+    </section>
+
+    <section class="rsvp" id="rsvp" aria-labelledby="rsvp-title">
+      <h2 class="section-title" id="rsvp-title">RSVP</h2>
+      <p class="by">Please reply by <span data-f="rsvpBy">[RSVP date]</span></p>
+      <p>Text or call to save your flyer's spot. Let us know your child's name so we can get their waiver sorted.</p>
+      <div class="contact">
+        <div>
+          <div class="who" data-f="contactName">[Parent name]</div>
+          <div class="num" id="phone" data-f="phone">[Phone number]</div>
+        </div>
+        <button class="copy" id="copy" type="button">Copy number</button>
+      </div>
+    </section>
+  </div>
+
+  <footer>Cleared for takeoff · See you in the tunnel</footer>
+</div>
+
+<script>
+// ---- Party details: fill these in ----
+const PARTY = {
+  name: "Mazha",
+  time: "",          // e.g. "4:30 PM"
+  endTime: "",       // e.g. "6:30 PM"
+  start24: "",       // e.g. "16:30" (for the calendar link)
+  end24: "",         // e.g. "18:30"
+  rsvpBy: "",        // e.g. "Tuesday, Oct 27"
+  contactName: "",   // e.g. "Piyush"
+  phone: ""          // e.g. "(312) 555-0100"
+};
+
+// Fill in any provided details; leave visible placeholders for the rest.
+document.querySelectorAll("[data-f]").forEach(el => {
+  const v = PARTY[el.dataset.f];
+  if (v) el.textContent = v;
+  else { el.textContent = el.dataset.f === "contactName" ? "RSVP details coming soon" : "TBA"; el.classList.add("ph"); }
+});
+if (!PARTY.phone) { document.getElementById("copy").hidden = true; document.getElementById("phone").hidden = true; }
+
+// Wind streaks
+const box = document.getElementById("streaks");
+for (let i = 0; i < 14; i++) {
+  const s = document.createElement("span");
+  s.className = "streak";
+  s.style.left = (6 + Math.random() * 88) + "%";
+  s.style.animationDelay = (-Math.random() * 1.6).toFixed(2) + "s";
+  s.style.animationDuration = (1.1 + Math.random() * 0.9).toFixed(2) + "s";
+  box.appendChild(s);
+}
+
+// Countdown to Nov 3, 2026 in Chicago (CST, UTC-6)
+(function () {
+  const party = Date.UTC(2026, 10, 3, 6); // midnight Nov 3 in Chicago
+  const days = Math.ceil((party - Date.now()) / 86400000);
+  const c = document.getElementById("count"), l = document.getElementById("count-label");
+  if (days > 1) { c.textContent = days; l.textContent = "days to takeoff"; }
+  else if (days === 1) { c.textContent = "1"; l.textContent = "day to takeoff"; }
+  else if (days > -1) { c.textContent = "🎉"; l.textContent = "today's the day"; }
+  else { c.textContent = "✈"; l.textContent = "thanks for flying"; }
+})();
+
+// Google Calendar link
+(function () {
+  const a = document.getElementById("cal");
+  const toUtc = (hhmm, fallbackH) => {
+    let h = fallbackH, m = 0;
+    if (/^\d{1,2}:\d{2}$/.test(hhmm)) [h, m] = hhmm.split(":").map(Number);
+    const d = new Date(Date.UTC(2026, 10, 3, h + 6, m));
+    return d.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
+  };
+  const who = PARTY.name ? PARTY.name + "'s" : "Birthday";
+  const params = new URLSearchParams({
+    action: "TEMPLATE",
+    text: who + " 10th birthday at iFLY",
+    dates: toUtc(PARTY.start24, 16) + "/" + toUtc(PARTY.end24, 18),
+    location: "iFLY Chicago-Rosemont, 5520 Park Place, Rosemont, IL 60018",
+    details: "Indoor skydiving birthday party. Comfy clothes and sneakers, hair tied back."
+  });
+  a.href = "https://calendar.google.com/calendar/render?" + params.toString();
+})();
+
+// Copy phone number
+document.getElementById("copy").addEventListener("click", function () {
+  const btn = this, num = document.getElementById("phone");
+  const done = t => { btn.textContent = t; setTimeout(() => btn.textContent = "Copy number", 1800); };
+  const select = () => {
+    const r = document.createRange(); r.selectNodeContents(num);
+    const s = getSelection(); s.removeAllRanges(); s.addRange(r);
+    done("Selected");
+  };
+  try {
+    navigator.clipboard.writeText(num.textContent.trim()).then(() => done("Copied"), select);
+  } catch (e) { select(); }
+});
+</script>
+
+</body>
+</html>
