@@ -10,9 +10,10 @@ DTSTART:20261103T173000Z
 DTEND:20261103T193000Z
 SUMMARY:Mazha's 10th birthday at iFLY
 LOCATION:iFLY Chicago-Rosemont\, 5520 Park Place\, Rosemont\, IL 60018
-DESCRIPTION:Indoor skydiving birthday party. Arrive 10 minutes early. Sign t
- he iFLY waiver and watch the pre-flight video before you arrive. Details: h
- ttps://mazhaturns10.com
+DESCRIPTION:Indoor skydiving birthday party. Arrive 10 minutes early. Befor
+ e you arrive\, sign the iFLY waiver and watch the pre-flight video: https:
+ //booking.iflyworld.com/participant/order?id=de0c6fe8-7682-4f23-999f-f1ddd
+ cf205eb Details: https://mazhaturns10.com
 URL:https://mazhaturns10.com
 BEGIN:VALARM
 TRIGGER:-P1D

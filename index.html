@@ -210,7 +210,7 @@ h1 .name { color: var(--suit); }
   display: grid; place-items: center; font-weight: 700; font-size: .9rem; margin-top: 1px;
 }
 .checklist b { display: block; }
-.checklist span.note { color: var(--muted); font-size: .95rem; }
+.checklist span.note { display: block; color: var(--muted); font-size: .95rem; }
 
 /* ---------- RSVP ---------- */
 .rsvp {
@@ -273,13 +273,22 @@ h1 .name { color: var(--suit); }
 .submit:focus-visible { outline: 3px solid var(--paper); outline-offset: 2px; }
 .form-msg { min-height: 1.3em; font-size: .9rem; color: var(--sun); margin: 6px 0 0; }
 .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
-.crew { display: inline-block; margin: 0 0 12px; background: var(--sun); color: var(--ink); font-weight: 700; font-size: .85rem; padding: 4px 12px; border-radius: 999px; }
+.crew { margin: 0 0 18px; padding: 14px; border-radius: 14px; background: rgba(255,248,251,.08); }
+.crew-title { font-weight: 700; color: var(--sun); margin: 0 0 10px; }
+.chips { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.chips li { background: var(--sun); color: var(--ink); font-weight: 700; font-size: .85rem; padding: 4px 12px; border-radius: 999px; }
+.chips li.more { background: transparent; color: var(--sun); border: 2px solid var(--sun); padding: 2px 10px; }
 .thanks-title { font-family: var(--display); font-size: 1.4rem; line-height: 1.2; color: var(--sun); margin: 4px 0 8px; }
 .cal-links { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 16px; }
 .cal-links a { font-weight: 700; font-size: .9rem; padding: 10px 14px; border-radius: 999px; background: var(--paper); color: var(--ink); text-decoration: none; }
 .cal-links a:focus-visible { outline: 3px solid var(--suit); outline-offset: 2px; }
 .linkish { background: none; border: 0; padding: 0; color: var(--sun); text-decoration: underline; font: inherit; font-size: .9rem; cursor: pointer; }
 .rsvp .contact { margin: 18px 0 0; }
+
+/* waiver buttons */
+.waiver { display: inline-block; margin-top: 8px; font-weight: 700; font-size: .85rem; padding: 8px 14px; border-radius: 999px; background: var(--ink); color: var(--paper); text-decoration: none; }
+.waiver:focus-visible { outline: 3px solid var(--suit); outline-offset: 2px; }
+.rsvp .waiver { background: var(--suit); color: var(--paper); margin: 0 0 4px; }
 
 /* placeholders the host still needs to fill in */
 .ph { color: var(--muted); font-style: italic; font-weight: 600; }
@@ -378,7 +387,7 @@ footer { margin-top: 48px; text-align: center; font-family: var(--mono); font-si
     <section aria-labelledby="check-title">
       <h2 class="section-title" id="check-title">Pre-flight checklist</h2>
       <ul class="checklist">
-        <li><span class="tick" aria-hidden="true">✓</span><div><b>Sign the waiver and watch the pre-flight video</b><span class="note">iFLY requires both before you arrive. Flyers under 18 need a parent or legal guardian to sign. We'll send you the link after you RSVP.</span></div></li>
+        <li><span class="tick" aria-hidden="true">✓</span><div><b>Sign the waiver and watch the pre-flight video</b><span class="note">iFLY requires both before you arrive. Flyers under 18 need a parent or legal guardian to sign.</span><a class="waiver" href="https://booking.iflyworld.com/participant/order?id=de0c6fe8-7682-4f23-999f-f1dddcf205eb" target="_blank" rel="noopener">Sign the waiver</a></div></li>
         <li><span class="tick" aria-hidden="true">✓</span><div><b>Arrive 10 minutes early</b><span class="note">That gives everyone time to check in before the flight starts.</span></div></li>
         <li><span class="tick" aria-hidden="true">✓</span><div><b>Comfy clothes and lace-up sneakers</b><span class="note">Pants or shorts are both fine.</span></div></li>
         <li><span class="tick" aria-hidden="true">✓</span><div><b>Jewelry and hair accessories off</b><span class="note">Earrings, rings and hair clips can come loose in the wind.</span></div></li>
@@ -389,7 +398,10 @@ footer { margin-top: 48px; text-align: center; font-family: var(--mono); font-si
     <section class="rsvp" id="rsvp" aria-labelledby="rsvp-title">
       <h2 class="section-title" id="rsvp-title">RSVP</h2>
       <p class="by">Please reply by <span data-f="rsvpBy">[RSVP date]</span></p>
-      <p class="crew" id="crew" hidden></p>
+      <div class="crew" id="crew" hidden>
+        <p class="crew-title" id="crew-title"></p>
+        <ul class="chips" id="crew-names"></ul>
+      </div>
 
       <form id="rsvp-form" novalidate>
         <div class="choice" role="radiogroup" aria-label="Can your flyer come?">
@@ -400,7 +412,7 @@ footer { margin-top: 48px; text-align: center; font-family: var(--mono); font-si
         <input class="text" id="f-child" name="child" type="text" maxlength="80" autocomplete="off">
         <label for="f-parent">Parent or guardian</label>
         <input class="text" id="f-parent" name="parent" type="text" maxlength="80" autocomplete="name">
-        <label for="f-contact">Phone or email <span>(for the waiver link)</span></label>
+        <label for="f-contact">Phone or email <span>(in case we need to reach you)</span></label>
         <input class="text" id="f-contact" name="contact" type="text" maxlength="120" autocomplete="email">
         <label for="f-notes">Anything we should know? <span>(optional)</span></label>
         <textarea id="f-notes" name="notes" rows="2" maxlength="300" placeholder="Allergies, questions, a sibling coming to watch"></textarea>
@@ -412,6 +424,7 @@ footer { margin-top: 48px; text-align: center; font-family: var(--mono); font-si
       <div class="thanks" id="thanks" hidden>
         <p class="thanks-title" id="thanks-title"></p>
         <p id="thanks-body"></p>
+        <a class="waiver" id="thanks-waiver" href="https://booking.iflyworld.com/participant/order?id=de0c6fe8-7682-4f23-999f-f1dddcf205eb" target="_blank" rel="noopener">Sign the iFLY waiver</a>
         <div class="cal-links" id="thanks-cal">
           <a class="cal-google" href="#" target="_blank" rel="noopener">Google</a>
           <a class="cal-apple" href="mazha-turns-10.ics">Apple</a>
@@ -433,6 +446,7 @@ footer { margin-top: 48px; text-align: center; font-family: var(--mono); font-si
   <footer>Cleared for takeoff · See you in the tunnel</footer>
 </div>
 
+<script src="config.js"></script>
 <script>
 // ---- Party details ----
 const PARTY = {
@@ -443,8 +457,8 @@ const PARTY = {
   contactName: "",    // e.g. "Piyush"
   phone: ""           // e.g. "(312) 555-0100"
 };
-// Google Apps Script web app that saves RSVPs to the host's Google Sheet.
-const RSVP_URL = "";
+// Google Apps Script web app that stores RSVPs (set in config.js).
+const RSVP_URL = window.RSVP_URL || "";
 
 // Calendar event (Nov 3, 2026 is CST, UTC-6). End time is a 2-hour block until confirmed.
 const EVENT = {
@@ -452,7 +466,7 @@ const EVENT = {
   startUtc: "2026-11-03T17:30:00Z",
   endUtc: "2026-11-03T19:30:00Z",
   location: "iFLY Chicago-Rosemont, 5520 Park Place, Rosemont, IL 60018",
-  details: "Indoor skydiving birthday party. Arrive 10 minutes early. Sign the iFLY waiver and watch the pre-flight video before you arrive. Comfy clothes and lace-up sneakers. Details: https://mazhaturns10.com"
+  details: "Indoor skydiving birthday party. Arrive 10 minutes early. Before you arrive, sign the iFLY waiver and watch the pre-flight video: https://booking.iflyworld.com/participant/order?id=de0c6fe8-7682-4f23-999f-f1dddcf205eb Comfy clothes and lace-up sneakers. Details: https://mazhaturns10.com"
 };
 
 // Fill in any provided details; show TBA for the rest.
@@ -508,18 +522,24 @@ for (let i = 0; i < 14; i++) {
   const btn = document.getElementById("rsvp-submit"), thanks = document.getElementById("thanks");
   const crew = document.getElementById("crew");
 
-  const showCrew = n => {
+  const showCrew = j => {
+    const n = j && j.count, names = (j && j.names) || [];
     if (typeof n !== "number" || n < 1) return;
-    crew.textContent = n + (n === 1 ? " flyer" : " flyers") + " confirmed so far";
+    document.getElementById("crew-title").textContent = "Who's flying with Mazha (" + n + ")";
+    const ul = document.getElementById("crew-names"); ul.textContent = "";
+    const shown = names.slice(0, 24);
+    shown.forEach(name => { const li = document.createElement("li"); li.textContent = name; ul.appendChild(li); });
+    if (n > shown.length) { const li = document.createElement("li"); li.className = "more"; li.textContent = "+" + (n - shown.length) + " more"; ul.appendChild(li); }
     crew.hidden = false;
   };
   const showThanks = (coming, child) => {
     const yes = coming === "yes";
     document.getElementById("thanks-title").textContent = yes ? "You're on the flight manifest!" : "Thanks for letting us know";
     document.getElementById("thanks-body").textContent = yes
-      ? child + " is booked for Tuesday, Nov 3 at 11:30 AM. We'll send the iFLY waiver link to the contact you gave us. Add the party to your calendar:"
+      ? child + " is booked for Tuesday, Nov 3 at 11:30 AM. Next, a parent signs the iFLY waiver and your flyer watches the pre-flight video. Then add the party to your calendar."
       : "We'll miss " + child + "! If plans change, you can update your answer below.";
     document.getElementById("thanks-cal").hidden = !yes;
+    document.getElementById("thanks-waiver").hidden = !yes;
     form.hidden = true;
     thanks.hidden = false;
   };
@@ -530,7 +550,7 @@ for (let i = 0; i < 14; i++) {
   } catch (e) {}
 
   if (!RSVP_URL) { btn.disabled = true; btn.textContent = "RSVPs open soon"; }
-  else fetch(RSVP_URL).then(r => r.json()).then(j => showCrew(j.count)).catch(() => {});
+  else fetch(RSVP_URL).then(r => r.json()).then(showCrew).catch(() => {});
 
   document.getElementById("rsvp-again").addEventListener("click", () => {
     try { localStorage.removeItem("mazha-rsvp"); } catch (e) {}
@@ -557,7 +577,7 @@ for (let i = 0; i < 14; i++) {
       const j = await r.json();
       if (!j.ok) throw new Error(j.error || "rejected");
       try { localStorage.setItem("mazha-rsvp", JSON.stringify({ coming: data.coming, child: data.child })); } catch (e) {}
-      showCrew(j.count);
+      showCrew(j);
       showThanks(data.coming, data.child);
     } catch (err) {
       msg.textContent = "Your RSVP didn't go through. Check your connection and try again" + (PARTY.phone ? ", or text " + PARTY.phone : "") + ".";

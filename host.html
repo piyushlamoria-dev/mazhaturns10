@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<title>Mazha's RSVPs</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🪂</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=DM+Sans:opsz,wght@9..40,400;9..40,600;9..40,700&family=Space+Mono:wght@400;700&display=swap">
+<style>
+/* Host dashboard: same pink/violet world as the invitation. Summary tiles, then one card per child. */
+:root {
+  --sky: #ffe4ef;
+  --ink: #3b1f6e;
+  --muted: #6e4f99;
+  --suit: #ff2d87;
+  --sun: #ffb3d1;
+  --paper: #fff8fb;
+  --line: #f5bcd5;
+  --yes: #1f7a4d;
+  --yes-bg: #d9f5e6;
+  --no: #8a3a3a;
+  --no-bg: #fbe1e1;
+  --display: "Dela Gothic One", "Arial Black", Impact, sans-serif;
+  --body: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "Space Mono", ui-monospace, Menlo, Consolas, monospace;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--sky); color: var(--ink); font-family: var(--body); line-height: 1.5; }
+[hidden] { display: none !important; }
+.wrap { max-width: 880px; margin: 0 auto; padding-inline: 18px; padding-block: 32px 64px; }
+.eyebrow { font-family: var(--mono); font-size: .75rem; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin: 0 0 6px; }
+h1 { font-family: var(--display); font-weight: 400; font-size: clamp(1.8rem, 6vw, 2.6rem); line-height: 1.05; margin: 0 0 6px; }
+.sub { color: var(--muted); margin: 0 0 24px; }
+.tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-bottom: 20px; }
+.tile { background: var(--paper); border: 2px solid var(--ink); border-radius: 16px; padding: 14px 16px; box-shadow: 4px 4px 0 var(--ink); }
+.tile .n { font-family: var(--display); font-size: 2.2rem; line-height: 1; font-variant-numeric: tabular-nums; }
+.tile .l { font-family: var(--mono); font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-top: 6px; }
+.tile.yes .n { color: var(--suit); }
+.bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.filters, .actions { display: flex; flex-wrap: wrap; gap: 6px; }
+button { font: 700 .85rem/1 var(--body); cursor: pointer; border-radius: 999px; padding: 10px 14px; border: 2px solid var(--ink); background: transparent; color: var(--ink); }
+button[aria-pressed="true"], button.primary { background: var(--ink); color: var(--paper); }
+button:focus-visible { outline: 3px solid var(--suit); outline-offset: 2px; }
+.list { display: grid; gap: 10px; }
+.card { background: var(--paper); border: 2px solid var(--ink); border-radius: 14px; padding: 14px 16px; display: grid; gap: 6px; }
+.card-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+.child { font-weight: 700; font-size: 1.1rem; }
+.pill { font-family: var(--mono); font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; padding: 3px 10px; border-radius: 999px; }
+.pill.yes { background: var(--yes-bg); color: var(--yes); }
+.pill.no { background: var(--no-bg); color: var(--no); }
+.meta { color: var(--muted); font-size: .92rem; overflow-wrap: anywhere; }
+.contact { font-family: var(--mono); font-size: .9rem; color: var(--ink); user-select: all; }
+.notes { background: var(--sky); border-radius: 10px; padding: 8px 10px; font-size: .95rem; overflow-wrap: anywhere; }
+.when { font-family: var(--mono); font-size: .72rem; color: var(--muted); }
+.state { background: var(--paper); border: 2px dashed var(--line); border-radius: 14px; padding: 24px; text-align: center; color: var(--muted); }
+.toast { min-height: 1.3em; font-size: .9rem; color: var(--muted); margin: 0 0 10px; }
+@media (max-width: 560px) { .tiles { grid-template-columns: 1fr 1fr 1fr; gap: 8px; } .tile { padding: 10px; } .tile .n { font-size: 1.7rem; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">Host page · Private</p>
+  <h1>Mazha's RSVPs</h1>
+  <p class="sub" id="sub">Tuesday, Nov 3 · 11:30 AM · iFLY Chicago-Rosemont</p>
+
+  <div id="locked" class="state" hidden></div>
+
+  <div id="app" hidden>
+    <div class="tiles">
+      <div class="tile yes"><div class="n" id="n-yes">–</div><div class="l">Flying</div></div>
+      <div class="tile"><div class="n" id="n-no">–</div><div class="l">Can't make it</div></div>
+      <div class="tile"><div class="n" id="n-days">–</div><div class="l" id="l-days">Days to reply</div></div>
+    </div>
+
+    <div class="bar">
+      <div class="filters" role="group" aria-label="Show">
+        <button type="button" data-filter="all" aria-pressed="true">All</button>
+        <button type="button" data-filter="Yes" aria-pressed="false">Flying</button>
+        <button type="button" data-filter="No" aria-pressed="false">Can't make it</button>
+      </div>
+      <div class="actions">
+        <button type="button" id="copy-contacts" class="primary">Copy contacts of flyers</button>
+        <button type="button" id="refresh">Refresh</button>
+      </div>
+    </div>
+    <p class="toast" id="toast" role="status" aria-live="polite"></p>
+    <div class="list" id="list"></div>
+  </div>
+</div>
+
+<script src="config.js"></script>
+<script>
+const RSVP_URL = window.RSVP_URL || "";
+const RSVP_DEADLINE = Date.UTC(2026, 9, 25, 5); // end of Sat, Oct 24 in Chicago (CDT, UTC-5)
+let replies = [], filter = "all";
+
+const $ = id => document.getElementById(id);
+const fmt = d => new Date(d).toLocaleString("en-US", { timeZone: "America/Chicago", month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
+const toast = t => { $("toast").textContent = t; if (t) setTimeout(() => { if ($("toast").textContent === t) $("toast").textContent = ""; }, 2500); };
+
+function getKey() {
+  const fromHash = location.hash.replace(/^#/, "");
+  try {
+    if (fromHash) { localStorage.setItem("mazha-host-key", fromHash); history.replaceState(null, "", location.pathname); return fromHash; }
+    return localStorage.getItem("mazha-host-key") || "";
+  } catch (e) { return fromHash; }
+}
+const KEY = getKey();
+
+function lock(msg) { $("app").hidden = true; $("locked").hidden = false; $("locked").textContent = msg; }
+
+function render() {
+  const yes = replies.filter(r => r.coming === "Yes"), no = replies.filter(r => r.coming === "No");
+  $("n-yes").textContent = yes.length;
+  $("n-no").textContent = no.length;
+  const days = Math.ceil((RSVP_DEADLINE - Date.now()) / 86400000);
+  $("n-days").textContent = days > 0 ? days : "0";
+  $("l-days").textContent = days > 0 ? (days === 1 ? "Day to reply" : "Days to reply") : "RSVPs closed";
+
+  const list = $("list"); list.textContent = "";
+  const shown = filter === "all" ? replies : replies.filter(r => r.coming === filter);
+  if (!shown.length) {
+    const d = document.createElement("div"); d.className = "state";
+    d.textContent = replies.length ? "No replies in this group yet." : "No RSVPs yet. Replies appear here as soon as guests send them.";
+    list.appendChild(d); return;
+  }
+  shown.forEach(r => {
+    const c = document.createElement("article"); c.className = "card";
+    const head = document.createElement("div"); head.className = "card-head";
+    const name = document.createElement("span"); name.className = "child"; name.textContent = r.child;
+    const pill = document.createElement("span"); pill.className = "pill " + (r.coming === "Yes" ? "yes" : "no"); pill.textContent = r.coming === "Yes" ? "Flying" : "Can't make it";
+    head.append(name, pill);
+    const meta = document.createElement("div"); meta.className = "meta";
+    const ct = document.createElement("span"); ct.className = "contact"; ct.textContent = r.contact;
+    meta.append(r.parent + " · ", ct);
+    c.append(head, meta);
+    if (r.notes) { const n = document.createElement("div"); n.className = "notes"; n.textContent = r.notes; c.appendChild(n); }
+    const w = document.createElement("div"); w.className = "when";
+    w.textContent = "Replied " + fmt(r.firstReplied) + (r.changes ? " · updated " + fmt(r.updated) : "");
+    c.appendChild(w);
+    list.appendChild(c);
+  });
+}
+
+async function load() {
+  if (!RSVP_URL) return lock("RSVPs aren't connected yet. This page will work once the Google link is added.");
+  if (!KEY) return lock("Open this page from the private link in your email.");
+  $("refresh").disabled = true;
+  try {
+    const r = await fetch(RSVP_URL + "?host=" + encodeURIComponent(KEY));
+    const j = await r.json();
+    if (!j.ok) {
+      try { localStorage.removeItem("mazha-host-key"); } catch (e) {}
+      return lock("That host link isn't valid. Use the link from the \"Your private RSVP page\" email.");
+    }
+    replies = j.replies || [];
+    $("locked").hidden = true; $("app").hidden = false;
+    render();
+  } catch (e) {
+    toast("Couldn't load replies. Check your connection and press Refresh.");
+    if ($("app").hidden) lock("Couldn't load replies. Check your connection and reload the page.");
+  } finally {
+    $("refresh").disabled = false;
+  }
+}
+
+document.querySelectorAll("[data-filter]").forEach(b => b.addEventListener("click", () => {
+  filter = b.dataset.filter;
+  document.querySelectorAll("[data-filter]").forEach(x => x.setAttribute("aria-pressed", String(x === b)));
+  render();
+}));
+$("refresh").addEventListener("click", () => load().then(() => toast("Up to date")));
+$("copy-contacts").addEventListener("click", () => {
+  const contacts = [...new Set(replies.filter(r => r.coming === "Yes").map(r => r.contact))];
+  if (!contacts.length) return toast("No flyers yet.");
+  const text = contacts.join(", ");
+  navigator.clipboard.writeText(text).then(
+    () => toast("Copied " + contacts.length + (contacts.length === 1 ? " contact" : " contacts")),
+    () => toast(text)
+  );
+});
+load();
+</script>
+</body>
+</html>
