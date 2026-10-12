@@ -235,6 +235,52 @@ h1 .name { color: var(--suit); }
 .copy:focus-visible { outline: 3px solid var(--paper); outline-offset: 2px; }
 .rsvp .small { font-size: .9rem; opacity: .85; margin: 12px 0 0; }
 
+/* calendar menu */
+.calmenu { position: relative; }
+.calmenu summary { list-style: none; }
+.calmenu summary::-webkit-details-marker { display: none; }
+.calmenu .menu {
+  position: absolute; top: calc(100% + 8px); left: 0; z-index: 5; min-width: 220px;
+  display: grid; gap: 2px; padding: 6px;
+  background: var(--paper); border: 2px solid var(--ink); border-radius: 14px; box-shadow: 4px 4px 0 var(--ink);
+}
+.calmenu .menu a { padding: 10px 12px; border-radius: 8px; color: var(--ink); text-decoration: none; font-weight: 600; }
+.calmenu .menu a:hover, .calmenu .menu a:focus-visible { background: var(--sky); outline: none; }
+
+/* RSVP form */
+.rsvp form { display: grid; gap: 4px; }
+.rsvp label { font-weight: 600; font-size: .9rem; margin-top: 10px; }
+.rsvp label span { font-weight: 400; opacity: .75; }
+.rsvp input.text, .rsvp textarea {
+  font: inherit; color: var(--ink); background: var(--paper);
+  border: 2px solid var(--paper); border-radius: 12px; padding: 10px 12px; width: 100%;
+}
+.rsvp textarea { resize: vertical; min-height: 64px; }
+.rsvp input.text:focus, .rsvp textarea:focus { outline: 3px solid var(--suit); outline-offset: 1px; }
+.choice { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 4px; }
+.choice input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.choice label {
+  margin: 0; text-align: center; padding: 12px 10px; cursor: pointer;
+  border: 2px solid rgba(255,248,251,.35); border-radius: 12px;
+}
+.choice input:checked + label { background: var(--sun); color: var(--ink); border-color: var(--sun); }
+.choice input:focus-visible + label { outline: 3px solid var(--suit); outline-offset: 2px; }
+.submit {
+  margin-top: 16px; font: 700 1rem/1 var(--body); padding: 14px 20px; cursor: pointer;
+  border-radius: 999px; border: 2px solid var(--suit); background: var(--suit); color: var(--paper);
+}
+.submit:disabled { opacity: .6; cursor: default; }
+.submit:focus-visible { outline: 3px solid var(--paper); outline-offset: 2px; }
+.form-msg { min-height: 1.3em; font-size: .9rem; color: var(--sun); margin: 6px 0 0; }
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.crew { display: inline-block; margin: 0 0 12px; background: var(--sun); color: var(--ink); font-weight: 700; font-size: .85rem; padding: 4px 12px; border-radius: 999px; }
+.thanks-title { font-family: var(--display); font-size: 1.4rem; line-height: 1.2; color: var(--sun); margin: 4px 0 8px; }
+.cal-links { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 16px; }
+.cal-links a { font-weight: 700; font-size: .9rem; padding: 10px 14px; border-radius: 999px; background: var(--paper); color: var(--ink); text-decoration: none; }
+.cal-links a:focus-visible { outline: 3px solid var(--suit); outline-offset: 2px; }
+.linkish { background: none; border: 0; padding: 0; color: var(--sun); text-decoration: underline; font: inherit; font-size: .9rem; cursor: pointer; }
+.rsvp .contact { margin: 18px 0 0; }
+
 /* placeholders the host still needs to fill in */
 .ph { color: var(--muted); font-style: italic; font-weight: 600; }
 .rsvp .ph { color: var(--sun); }
@@ -269,7 +315,14 @@ footer { margin-top: 48px; text-align: center; font-family: var(--mono); font-si
       <p class="lede">Come fly with us at <strong>iFLY Chicago-Rosemont</strong> for an indoor skydiving birthday. No plane, no parachute, just wind.</p>
       <div class="cta-row">
         <a class="btn" href="#rsvp">RSVP</a>
-        <a class="btn alt" id="cal" href="#" target="_blank" rel="noopener">Add to Google Calendar</a>
+        <details class="calmenu">
+          <summary class="btn alt">Add to calendar</summary>
+          <div class="menu">
+            <a class="cal-google" href="#" target="_blank" rel="noopener">Google Calendar</a>
+            <a class="cal-apple" href="mazha-turns-10.ics">Apple Calendar (iPhone, Mac)</a>
+            <a class="cal-outlook" href="#" target="_blank" rel="noopener">Outlook</a>
+          </div>
+        </details>
       </div>
     </div>
     <div class="tunnel" aria-hidden="true">
@@ -299,7 +352,7 @@ footer { margin-top: 48px; text-align: center; font-family: var(--mono); font-si
           </div>
           <div class="field">
             <p class="label">Boarding</p>
-            <p class="value"><span data-f="time">[Start time]</span><small>Please arrive 10 minutes early</small></p>
+            <p class="value"><span data-f="time">[Start time]</span><small>Please arrive by 11:20 AM</small></p>
           </div>
           <div class="field">
             <p class="label">Wheels down</p>
@@ -336,10 +389,40 @@ footer { margin-top: 48px; text-align: center; font-family: var(--mono); font-si
     <section class="rsvp" id="rsvp" aria-labelledby="rsvp-title">
       <h2 class="section-title" id="rsvp-title">RSVP</h2>
       <p class="by">Please reply by <span data-f="rsvpBy">[RSVP date]</span></p>
-      <p>Text or call to save your flyer's spot. Let us know your child's name so we can get their waiver sorted.</p>
-      <div class="contact">
+      <p class="crew" id="crew" hidden></p>
+
+      <form id="rsvp-form" novalidate>
+        <div class="choice" role="radiogroup" aria-label="Can your flyer come?">
+          <input type="radio" name="coming" id="coming-yes" value="yes"><label for="coming-yes">Yes, we'll be there</label>
+          <input type="radio" name="coming" id="coming-no" value="no"><label for="coming-no">Sorry, can't make it</label>
+        </div>
+        <label for="f-child">Child's name</label>
+        <input class="text" id="f-child" name="child" type="text" maxlength="80" autocomplete="off">
+        <label for="f-parent">Parent or guardian</label>
+        <input class="text" id="f-parent" name="parent" type="text" maxlength="80" autocomplete="name">
+        <label for="f-contact">Phone or email <span>(for the waiver link)</span></label>
+        <input class="text" id="f-contact" name="contact" type="text" maxlength="120" autocomplete="email">
+        <label for="f-notes">Anything we should know? <span>(optional)</span></label>
+        <textarea id="f-notes" name="notes" rows="2" maxlength="300" placeholder="Allergies, questions, a sibling coming to watch"></textarea>
+        <input class="hp" id="f-website" name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <button class="submit" id="rsvp-submit" type="submit">Send RSVP</button>
+        <p class="form-msg" id="form-msg" role="status" aria-live="polite"></p>
+      </form>
+
+      <div class="thanks" id="thanks" hidden>
+        <p class="thanks-title" id="thanks-title"></p>
+        <p id="thanks-body"></p>
+        <div class="cal-links" id="thanks-cal">
+          <a class="cal-google" href="#" target="_blank" rel="noopener">Google</a>
+          <a class="cal-apple" href="mazha-turns-10.ics">Apple</a>
+          <a class="cal-outlook" href="#" target="_blank" rel="noopener">Outlook</a>
+        </div>
+        <button type="button" class="linkish" id="rsvp-again">Change your answer or RSVP another child</button>
+      </div>
+
+      <div class="contact" id="contact-box">
         <div>
-          <div class="who" data-f="contactName">[Parent name]</div>
+          <div class="who">Questions? Text <span data-f="contactName">[Parent name]</span></div>
           <div class="num" id="phone" data-f="phone">[Phone number]</div>
         </div>
         <button class="copy" id="copy" type="button">Copy number</button>
@@ -351,25 +434,34 @@ footer { margin-top: 48px; text-align: center; font-family: var(--mono); font-si
 </div>
 
 <script>
-// ---- Party details: fill these in ----
+// ---- Party details ----
 const PARTY = {
   name: "Mazha",
-  time: "",          // e.g. "4:30 PM"
-  endTime: "",       // e.g. "6:30 PM"
-  start24: "",       // e.g. "16:30" (for the calendar link)
-  end24: "",         // e.g. "18:30"
-  rsvpBy: "",        // e.g. "Tuesday, Oct 27"
-  contactName: "",   // e.g. "Piyush"
-  phone: ""          // e.g. "(312) 555-0100"
+  time: "11:30 AM",
+  endTime: "",        // e.g. "1:30 PM"
+  rsvpBy: "Saturday, Oct 24",
+  contactName: "",    // e.g. "Piyush"
+  phone: ""           // e.g. "(312) 555-0100"
+};
+// Google Apps Script web app that saves RSVPs to the host's Google Sheet.
+const RSVP_URL = "";
+
+// Calendar event (Nov 3, 2026 is CST, UTC-6). End time is a 2-hour block until confirmed.
+const EVENT = {
+  title: "Mazha's 10th birthday at iFLY",
+  startUtc: "2026-11-03T17:30:00Z",
+  endUtc: "2026-11-03T19:30:00Z",
+  location: "iFLY Chicago-Rosemont, 5520 Park Place, Rosemont, IL 60018",
+  details: "Indoor skydiving birthday party. Arrive 10 minutes early. Sign the iFLY waiver and watch the pre-flight video before you arrive. Comfy clothes and lace-up sneakers. Details: https://mazhaturns10.com"
 };
 
-// Fill in any provided details; leave visible placeholders for the rest.
+// Fill in any provided details; show TBA for the rest.
 document.querySelectorAll("[data-f]").forEach(el => {
   const v = PARTY[el.dataset.f];
   if (v) el.textContent = v;
-  else { el.textContent = el.dataset.f === "contactName" ? "RSVP details coming soon" : "TBA"; el.classList.add("ph"); }
+  else { el.textContent = "TBA"; el.classList.add("ph"); }
 });
-if (!PARTY.phone) { document.getElementById("copy").hidden = true; document.getElementById("phone").hidden = true; }
+if (!PARTY.phone) document.getElementById("contact-box").hidden = true;
 
 // Wind streaks
 const box = document.getElementById("streaks");
@@ -393,24 +485,86 @@ for (let i = 0; i < 14; i++) {
   else { c.textContent = "✈"; l.textContent = "thanks for flying"; }
 })();
 
-// Google Calendar link
+// Calendar links
 (function () {
-  const a = document.getElementById("cal");
-  const toUtc = (hhmm, fallbackH) => {
-    let h = fallbackH, m = 0;
-    if (/^\d{1,2}:\d{2}$/.test(hhmm)) [h, m] = hhmm.split(":").map(Number);
-    const d = new Date(Date.UTC(2026, 10, 3, h + 6, m));
-    return d.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
-  };
-  const who = PARTY.name ? PARTY.name + "'s" : "Birthday";
-  const params = new URLSearchParams({
-    action: "TEMPLATE",
-    text: who + " 10th birthday at iFLY",
-    dates: toUtc(PARTY.start24, 16) + "/" + toUtc(PARTY.end24, 18),
-    location: "iFLY Chicago-Rosemont, 5520 Park Place, Rosemont, IL 60018",
-    details: "Indoor skydiving birthday party. Comfy clothes and sneakers, hair tied back."
+  const compact = iso => iso.replace(/[-:]/g, "");
+  const google = "https://calendar.google.com/calendar/render?" + new URLSearchParams({
+    action: "TEMPLATE", text: EVENT.title, dates: compact(EVENT.startUtc) + "/" + compact(EVENT.endUtc),
+    location: EVENT.location, details: EVENT.details
   });
-  a.href = "https://calendar.google.com/calendar/render?" + params.toString();
+  const outlook = "https://outlook.live.com/calendar/0/action/compose?" + new URLSearchParams({
+    rru: "addevent", subject: EVENT.title, startdt: EVENT.startUtc, enddt: EVENT.endUtc,
+    location: EVENT.location, body: EVENT.details
+  });
+  document.querySelectorAll(".cal-google").forEach(a => a.href = google);
+  document.querySelectorAll(".cal-outlook").forEach(a => a.href = outlook);
+  // Close the hero menu after a choice
+  document.querySelectorAll(".calmenu .menu a").forEach(a => a.addEventListener("click", () => a.closest("details").open = false));
+})();
+
+// RSVP
+(function () {
+  const form = document.getElementById("rsvp-form"), msg = document.getElementById("form-msg");
+  const btn = document.getElementById("rsvp-submit"), thanks = document.getElementById("thanks");
+  const crew = document.getElementById("crew");
+
+  const showCrew = n => {
+    if (typeof n !== "number" || n < 1) return;
+    crew.textContent = n + (n === 1 ? " flyer" : " flyers") + " confirmed so far";
+    crew.hidden = false;
+  };
+  const showThanks = (coming, child) => {
+    const yes = coming === "yes";
+    document.getElementById("thanks-title").textContent = yes ? "You're on the flight manifest!" : "Thanks for letting us know";
+    document.getElementById("thanks-body").textContent = yes
+      ? child + " is booked for Tuesday, Nov 3 at 11:30 AM. We'll send the iFLY waiver link to the contact you gave us. Add the party to your calendar:"
+      : "We'll miss " + child + "! If plans change, you can update your answer below.";
+    document.getElementById("thanks-cal").hidden = !yes;
+    form.hidden = true;
+    thanks.hidden = false;
+  };
+
+  try {
+    const saved = JSON.parse(localStorage.getItem("mazha-rsvp") || "null");
+    if (saved && saved.child) showThanks(saved.coming, saved.child);
+  } catch (e) {}
+
+  if (!RSVP_URL) { btn.disabled = true; btn.textContent = "RSVPs open soon"; }
+  else fetch(RSVP_URL).then(r => r.json()).then(j => showCrew(j.count)).catch(() => {});
+
+  document.getElementById("rsvp-again").addEventListener("click", () => {
+    try { localStorage.removeItem("mazha-rsvp"); } catch (e) {}
+    form.reset(); msg.textContent = "";
+    thanks.hidden = true; form.hidden = false;
+    document.getElementById("coming-yes").focus();
+  });
+
+  form.addEventListener("submit", async e => {
+    e.preventDefault();
+    if (!RSVP_URL) return;
+    const data = Object.fromEntries(new FormData(form));
+    for (const k of ["child", "parent", "contact", "notes"]) data[k] = (data[k] || "").trim();
+    const missing = !data.coming ? ["coming-yes", "Choose yes or no at the top."]
+      : !data.child ? ["f-child", "Add your child's name."]
+      : !data.parent ? ["f-parent", "Add a parent or guardian's name."]
+      : !data.contact ? ["f-contact", "Add a phone number or email so we can send the waiver link."]
+      : null;
+    if (missing) { msg.textContent = missing[1]; document.getElementById(missing[0]).focus(); return; }
+
+    btn.disabled = true; btn.textContent = "Sending…"; msg.textContent = "";
+    try {
+      const r = await fetch(RSVP_URL, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(data) });
+      const j = await r.json();
+      if (!j.ok) throw new Error(j.error || "rejected");
+      try { localStorage.setItem("mazha-rsvp", JSON.stringify({ coming: data.coming, child: data.child })); } catch (e) {}
+      showCrew(j.count);
+      showThanks(data.coming, data.child);
+    } catch (err) {
+      msg.textContent = "Your RSVP didn't go through. Check your connection and try again" + (PARTY.phone ? ", or text " + PARTY.phone : "") + ".";
+    } finally {
+      btn.disabled = false; btn.textContent = "Send RSVP";
+    }
+  });
 })();
 
 // Copy phone number
