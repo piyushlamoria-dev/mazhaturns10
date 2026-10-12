@@ -452,7 +452,7 @@ footer { margin-top: 48px; text-align: center; font-family: var(--mono); font-si
 const PARTY = {
   name: "Mazha",
   time: "11:30 AM",
-  endTime: "",        // e.g. "1:30 PM"
+  endTime: "2:00 PM",
   rsvpBy: "Saturday, Oct 24",
   contactName: "",    // e.g. "Piyush"
   phone: ""           // e.g. "(312) 555-0100"
@@ -460,11 +460,11 @@ const PARTY = {
 // Google Apps Script web app that stores RSVPs (set in config.js).
 const RSVP_URL = window.RSVP_URL || "";
 
-// Calendar event (Nov 3, 2026 is CST, UTC-6). End time is a 2-hour block until confirmed.
+// Calendar event (Nov 3, 2026 is CST, UTC-6): 11:30 AM to 2:00 PM.
 const EVENT = {
   title: "Mazha's 10th birthday at iFLY",
   startUtc: "2026-11-03T17:30:00Z",
-  endUtc: "2026-11-03T19:30:00Z",
+  endUtc: "2026-11-03T20:00:00Z",
   location: "iFLY Chicago-Rosemont, 5520 Park Place, Rosemont, IL 60018",
   details: "Indoor skydiving birthday party. Arrive 10 minutes early. Before you arrive, sign the iFLY waiver and watch the pre-flight video: https://booking.iflyworld.com/participant/order?id=de0c6fe8-7682-4f23-999f-f1dddcf205eb Comfy clothes and lace-up sneakers. Details: https://mazhaturns10.com"
 };
